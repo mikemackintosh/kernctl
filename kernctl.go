@@ -125,11 +125,17 @@ func (conn *Conn) connect() (ret int64, err syscall.Errno) {
 }
 
 // Create a new connection to a named kext's kernel control socket
-func NewConnByName(CtlName string) *Conn {
+func NewConnByName(CtlName string) (*Conn, error) {
 	conn := new(Conn)
-	fd, _ := conn.socket()
-	conn.CtlId, _ = GetCtlId(fd, CtlName)
-	return conn
+	fd, err := conn.socket()
+	if err != nil {
+		return conn, err
+	}
+	conn.CtlId, err = GetCtlId(fd, CtlName)
+	if err != nil {
+		return conn, err
+	}
+	return conn, nil
 }
 
 func NewConnByCtlId(CtlId uint32, UnitId uint32) *Conn {
