@@ -16,6 +16,7 @@ import (
 )
 
 const (
+	SYSPROTO_EVENT   = 1
 	SYSPROTO_CONTROL = 2
 	AF_SYSTEM        = 32
 	PF_SYSTEM        = AF_SYSTEM
